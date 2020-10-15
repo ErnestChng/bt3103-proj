@@ -2,7 +2,6 @@
   <div :style="{backgroundImage: `url(${image})`}">
     <div class="divider"></div>
     <h1>ONE-STOP SOLUTION FOR COVID-19</h1>
-
     <div class="divider"></div>
   </div>
 </template>
