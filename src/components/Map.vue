@@ -1,8 +1,11 @@
 <template>
-  <div :style="{backgroundImage: `url(${image})`}">
-    <div class="divider"></div>
-    <h1>MAP</h1>
-    <div class="divider"></div>
+<!--  <div :style="{backgroundImage: `url(${image})`}">-->
+<!--    <div class="divider"></div>-->
+<!--    <h1>MAP</h1>-->
+<!--    <div class="divider"></div>-->
+<!--  </div>-->
+  <div>
+    <google-map/>
   </div>
 </template>
 
