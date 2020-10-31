@@ -1,9 +1,9 @@
-import Home from "./components/Home";
-import About from "./components/About";
-import News from "./components/News";
-import Map from "./components/Map";
-import Forum from "./components/Forum";
-import Contact from "./components/Contact";
+import Home from "./components/pages/home/Home";
+import About from "./components/pages/about/About";
+import News from "./components/pages/news/News";
+import Map from "./components/pages/map/Map";
+import Forum from "./components/pages/forum/Forum";
+import Contact from "./components/pages/contact/Contact";
 
 export default [
     {path: '/', component: Home},
