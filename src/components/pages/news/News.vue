@@ -2,7 +2,7 @@
   <div>
     <h1>COVID-19 Updates and Annoucements</h1>
     <table class="table">
-      <thead style="background: #2D3F55; color: white;">
+      <thead style="background: #2d3f55; color: white;">
       <tr style='width:18%'>
         <td class="border"><strong>Date</strong></td>
         <td class="border"><strong>Title</strong></td>
@@ -10,9 +10,9 @@
       </thead>
 
       <tbody style="border: 5px solid #990000; box-sizing: border-box; border-image: none;">
-      <tr v-for="item in itemsList" v-bind:key="item.id">
+      <tr v-for="item in itemsList" :key="item.Id">
         <td class="border" style="width:18%">{{item.Date}}</td>
-        <td class="border">{{item.Title}}</td>
+        <td class="border">{{ item.Title }}. <a :href="item.Link"> See more.</a></td>
       </tr>
       </tbody>
     </table>
@@ -34,17 +34,12 @@ export default {
   methods: {
     /* fetches items from database */
     fetchItems: function () {
-      var count = 1
-      database.collection('newspage').get().then((querySnapShot) => {
-        console.log('READING FROM DATABASE')
+      database.collection('newspage').orderBy('Id', 'desc').get().then((querySnapShot) => {
         let item = {}
         querySnapShot.forEach(doc => {
           item = doc.data()
-          item.id = count
           console.log(item)
-          console.log(item.Date)
           this.itemsList.push(item)
-          count += 1
         })
         console.log('done')
       })
