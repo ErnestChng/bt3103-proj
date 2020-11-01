@@ -38,10 +38,8 @@ export default {
         let item = {}
         querySnapShot.forEach(doc => {
           item = doc.data()
-          console.log(item)
           this.itemsList.push(item)
         })
-        console.log('done')
       })
     }
   },
