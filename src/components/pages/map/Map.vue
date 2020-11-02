@@ -58,7 +58,7 @@ export default {
   },
   data () {
     return {
-      url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
+      url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=c76b00b2-2389-4b8b-bf94-517622dcddf9',
       zoom: 12,
       center: [1.3521, 103.8198],
       loaded: false,
@@ -69,10 +69,10 @@ export default {
         "SASH_for_Children": {img: sashforchildren_img, data:null, show: false}
       },
       icons: [
-        {title: "Polyclinics", cardImage: polyclinics_img},
-        {title: "GPs", cardImage: gps_img},
-        {title: "SASH", cardImage: sash_img},
-        {title: "SASH_for_Children", cardImage: sashforchildren_img}
+        {title_code: "Polyclinics", title: "Polyclinics", cardImage: polyclinics_img},
+        {title_code: "GPs", title: "GPs", cardImage: gps_img},
+        {title_code: "SASH", title: "SASH", cardImage: sash_img},
+        {title_code: "SASH_for_Children", title: "SASH for Children", cardImage: sashforchildren_img}
       ]
     };
   },
@@ -82,7 +82,6 @@ export default {
     for (var i = 0; i < count; i++) {
       var locations = arr[i]
       let temp = []
-      console.log(locations)
       database.collection(`mappage/markers/${locations}`).get().then(querySnapShot => {
         querySnapShot.forEach(doc => {
           var location = {
@@ -109,7 +108,7 @@ export default {
   },
   methods: {
     setSelected(value) {
-      var value_title = value.map(a => a.title)
+      var value_title = value.map(a => a.title_code)
       for (let obj in this.datacollection) {
         this.datacollection[obj].show = false
       }
