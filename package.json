@@ -10,8 +10,10 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "firebase": "^7.23.0",
+    "leaflet": "^1.7.1",
     "vue": "^2.6.11",
-    "vuejs-google-maps": "0.0.10"
+    "vue-select": "^3.10.8",
+    "vue2-leaflet": "^2.6.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
