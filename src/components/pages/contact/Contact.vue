@@ -2,26 +2,36 @@
   <div>
     <div class='background' :style="{backgroundImage: `url(${image})`}">
       <div class="text-block">
-        <h3>Get in touch with us. We value your feedback!</h3>
-        <p>Our team at bacellgroup is dedicated to provide our users with the best user experience.</p>
+        <h2>Get in touch with us. We value your feedback!</h2>
       </div>
     </div>
-    <div id=app>
-      <h1>Contact Form</h1>
-      <form class="form" @submit.prevent="sendEmail">
-        <label>Full Name:</label>
-        <input required v-model="name" name='name' type="text"/>
-        <label>Email:</label>
-        <input required v-model='email' name='email' type="email"/><br><br>
-        <label>Your message:</label>
-        <textarea required v-model='message' name='message' rows="6"></textarea><br>
-        <label></label>
-        <input type="submit" value="Send" onclick="return confirm('Submit form?')">
-      </form>
+    <div class="row">
+      <div class="column left">
+        <br><h1> Message Us</h1><br>
+        <p>Our team at bacellgroup is dedicated to provide our users with the best user experience.</p><br>
+        <p> Have an enquiry? <br> Would like to find out more?<p><br>
+        <p>Feel free to write in to us!</p>
+      </div>
+
+      <div class="column">
+        <div id=app>
+          <h1>Contact Form</h1>
+          <hr>
+          <form class="form" @submit.prevent="sendEmail">
+            <label class="required">Full Name:</label>
+            <input required v-model="name" name='name' type="text"/>
+            <label class="required">Email:</label>
+            <input required v-model='email' name='email' type="email"/><br><br>
+            <label class="required">Your message:</label>
+            <textarea required v-model='message' name='message' rows="6"></textarea><br>
+            <hr>
+            <p>Note: Responses may take up to 3 working days.</p>
+            <input type="submit" value="Send" onclick="return confirm('Submit form?')">
+          </form>
+        </div>
+      </div>
     </div>
-
   </div>
-
 </template>
 
 <script>
@@ -91,6 +101,7 @@ div.background {
 }
 
 label{
+  padding: 8px;
   display: inline-block;
   margin: 20px 0 10px;
   width:35%;
@@ -102,6 +113,9 @@ textarea, input[type="submit"]{
   display: inline-block;
   padding: 8px;
   width:65%;
+  border-radius: 10px;
+  border: 1px solid #2d3f55;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 input[type="submit"] {
@@ -114,4 +128,19 @@ input[type="submit"]:hover {
   color:white;
 }
 
+.required:after {
+  content:" *";
+  color: red;
+}
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+.left {
+  background-color: #F2F3F4;
+  text-align: center;
+}
 </style>
