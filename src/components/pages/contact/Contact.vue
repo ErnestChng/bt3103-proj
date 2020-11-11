@@ -8,15 +8,13 @@
     <div class="row">
       <div class="column left">
         <br><h1> Message Us</h1><br>
-        <p>Our team at bacellgroup is dedicated to provide our users with the best user experience.</p><br>
+        <p><b>Our team at bacellgroup is dedicated to <br>provide our users with the best user experience!</b></p><br>
         <p> Have an enquiry? <br> Would like to find out more?<p><br>
         <p>Feel free to write in to us!</p>
       </div>
 
-      <div class="column">
+      <div class="column right">
         <div id=app>
-          <h1>Contact Form</h1>
-          <hr>
           <form class="form" @submit.prevent="sendEmail">
             <label class="required">Full Name:</label>
             <input required v-model="name" name='name' type="text"/>
@@ -63,7 +61,6 @@ export default {
       this.name = ''
       this.email = ''
       this.message = ''
-
     },
   }
 };
@@ -142,5 +139,10 @@ input[type="submit"]:hover {
 .left {
   background-color: #F2F3F4;
   text-align: center;
+  padding: 30px;
+  padding-top: 50px;
+}
+.right {
+  padding: 30px;
 }
 </style>
