@@ -7,9 +7,11 @@
     </div>
     <div class="row">
       <div class="column left">
-        <br><h1> Message Us</h1><br>
+        <br>
+        <h1> Message Us</h1><br>
         <p><b>Our team at bacellgroup is dedicated to <br>provide our users with the best user experience!</b></p><br>
-        <p> Have an enquiry? <br> Would like to find out more?<p><br>
+        <p> Have an enquiry? <br> Would like to find out more?
+        <p><br>
         <p>Feel free to write in to us!</p>
       </div>
 
@@ -33,7 +35,7 @@
 </template>
 
 <script>
-import contactus from "@/assets/contactus.jpeg"
+import contactus from "@/assets/contactus.jpeg";
 import emailjs from 'emailjs-com';
 
 export default {
@@ -48,19 +50,19 @@ export default {
   methods: {
     sendEmail(e) {
       try {
-        emailjs.sendForm('service-id', 'template-id', e.target,
-            'user-id', {
+        emailjs.sendForm('service_nrkshng', 'template_ix21lgu', e.target,
+            'user_06GBpdOLGFj2t33M3sW2J', {
               name: this.name,
               email: this.email,
               message: this.message
-            })
-      } catch(error) {
-        console.log({error})
+            });
+      } catch (error) {
+        console.log({error});
       }
       // Reset form field
-      this.name = ''
-      this.email = ''
-      this.message = ''
+      this.name = '';
+      this.email = '';
+      this.message = '';
     },
   }
 };
@@ -89,27 +91,29 @@ div.background {
   padding-right: 20px;
 }
 
-#app *{
+#app * {
   box-sizing: border-box;
 }
-#app{
+
+#app {
   margin: 20px auto;
   max-width: 500px;
 }
 
-label{
+label {
   padding: 8px;
   display: inline-block;
   margin: 20px 0 10px;
-  width:35%;
-  align-content:left;
+  width: 35%;
+  align-content: left;
   text-align: left;
 }
+
 input[type="text"], input[type="email"],
-textarea, input[type="submit"]{
+textarea, input[type="submit"] {
   display: inline-block;
   padding: 8px;
-  width:65%;
+  width: 65%;
   border-radius: 10px;
   border: 1px solid #2d3f55;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -122,13 +126,14 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background: #2d3f55;
   border: solid 1px #2d3f55;
-  color:white;
+  color: white;
 }
 
 .required:after {
-  content:" *";
+  content: " *";
   color: red;
 }
+
 .row {
   display: flex;
 }
@@ -136,12 +141,14 @@ input[type="submit"]:hover {
 .column {
   flex: 50%;
 }
+
 .left {
   background-color: #F2F3F4;
   text-align: center;
   padding: 30px;
   padding-top: 50px;
 }
+
 .right {
   padding: 30px;
 }
