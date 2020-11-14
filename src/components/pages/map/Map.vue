@@ -28,6 +28,32 @@
         </l-marker>
       </div>
 
+      <div v-if="datacollection.SASH.show">
+        <l-marker v-for="mark in datacollection.SASH.data" :lat-lng="[mark.lat, mark.long]"
+                  :key="mark.title">
+          <l-icon>
+            <img :src="datacollection.SASH.img" style="height:40px;width:40px" alt="sash">
+          </l-icon>
+          <l-tooltip style="text-align: left">{{ mark.name }}<br>Tel: {{ mark.tel }}
+            <br>Hours: {{ mark.hours }}
+            <br>Address: {{ mark.address }}
+          </l-tooltip>
+        </l-marker>
+      </div>
+
+      <div v-if="datacollection.GPs.show">
+        <l-marker v-for="mark in datacollection.GPs.data" :lat-lng="[mark.lat, mark.long]"
+                  :key="mark.title">
+          <l-icon>
+            <img :src="datacollection.GPs.img" style="height:40px;width:40px" alt="sash">
+          </l-icon>
+          <l-tooltip style="text-align: left">{{ mark.name }}<br>Tel: {{ mark.tel }}
+            <br>Hours: {{ mark.hours }}
+            <br>Address: {{ mark.address }}
+          </l-tooltip>
+        </l-marker>
+      </div>
+
     </l-map>
     <v-select multiple :options="icons" label="title" @input="setSelected" class="inner">
       <template slot="option" slot-scope="option">
@@ -35,7 +61,7 @@
         <span style="margin-left: 20px">{{ option.title }}</span>
       </template>
     </v-select>
-    <!--    <div>{{ datacollection }}</div>-->
+<!--        <div>{{ datacollection }}</div>-->
   </div>
 </template>
 
