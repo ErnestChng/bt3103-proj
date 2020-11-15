@@ -1,6 +1,6 @@
 <template>
   <div style="position:relative">
-    <l-map style="height: 700px;z-index: 1" :zoom="zoom" :center="center" :options="{zoomControl: false}">
+    <l-map id="map" :zoom="zoom" :center="center" :options="{zoomControl: false}">
       <l-control-zoom position="bottomright"></l-control-zoom>
       <l-tile-layer :url="url"></l-tile-layer>
 
@@ -27,7 +27,6 @@
           </l-tooltip>
         </l-marker>
       </div>
-
     </l-map>
     <v-select multiple :options="icons" label="title" @input="setSelected" class="inner">
       <template slot="option" slot-scope="option">
@@ -35,12 +34,10 @@
         <span style="margin-left: 20px">{{ option.title }}</span>
       </template>
     </v-select>
-    <!--    <div>{{ datacollection }}</div>-->
   </div>
 </template>
 
 <script>
-// import L from 'leaflet';
 import {LControlZoom, LIcon, LMap, LMarker, LTileLayer, LTooltip} from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import vSelect from "vue-select";
@@ -129,6 +126,11 @@ export default {
 </script>
 
 <style scoped>
+#map {
+  min-height: calc(100vh - 100px - 80px - 40px);
+  z-index: 1;
+}
+
 .inner {
   position: absolute;
   top: 25px;

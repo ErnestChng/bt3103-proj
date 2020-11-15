@@ -2,7 +2,7 @@
   <header>
     <nav id="main">
       <div id="main-left">
-        <router-link id="header-title" to="/home" exact>
+        <router-link id="header-title" to="/" exact>
           <span>COVID-19 Portal</span>
         </router-link>
       </div>
@@ -18,7 +18,7 @@
       </div>
     </nav>
     <nav id="sub" v-if="user.loggedIn">
-      <router-link to="/" exact>Home</router-link>
+      <router-link to="/" exact style="margin-left: 25px">Home</router-link>
       <router-link to="/about" exact>About</router-link>
       <router-link to="/news" exact>News</router-link>
       <router-link to="/map" exact>Map</router-link>
@@ -52,6 +52,7 @@ export default {
           .then(() => {
             this.$router.replace({
               path: "/"
+            }).catch(() => {
             });
           });
     }
@@ -71,7 +72,7 @@ header {
   background: #2D3F55;
   color: #FFFFFF;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  padding: 10px 30px;
+  height: 100px;
 }
 
 #main-left {
@@ -118,20 +119,24 @@ a {
 
 #sub {
   background: #4E5661;
-  padding: 10px 20px;
-  text-align: left;
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 
 #sub a {
-  padding: 10px;
   font-weight: bold;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   color: #FFFFFF;
+  padding: 0 15px;
 }
 
 #sub a:hover {
   background: #3b4149;
   text-decoration: none;
+  height: inherit;
+  display: flex;
+  align-items: center;
 }
 </style>

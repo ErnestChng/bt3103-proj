@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="container">
     <div class="card">
       <div class="card-header">Register</div>
       <div class="card-body">
@@ -97,10 +97,11 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  margin-top: 50px;
-  margin-bottom: 50px;
+#container {
+  min-height: calc(100vh - 100px - 80px - 40px);
+  padding: 100px;
 }
+
 
 .form-group {
   padding: 20px;

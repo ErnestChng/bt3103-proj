@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="container">
     <h1 style="padding: 20px">COVID-19 Updates and Announcements</h1>
     <table class="table">
       <thead style="background: #2d3f55; color: white;">
@@ -51,6 +51,10 @@ export default {
 </script>
 
 <style scoped>
+#container {
+  min-height: calc(100vh - 100px - 80px - 40px);
+}
+
 .table {
   width: 70%;
   margin-left: auto;
