@@ -66,6 +66,7 @@ export default {
   },
   data() {
     return {
+      posts: [],
       image: home,
       exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
           "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
@@ -144,7 +145,7 @@ export default {
       return hours + ':' + minutes + ' ' + ampm;
     },
     fetchPost: function () {
-      var post = database.collection("forumposts").doc(this.id).get();
+      var post = this.posts[0];
       this.user = post.user;
       this.subject = post.subject;
       this.body = post.body;
@@ -155,6 +156,16 @@ export default {
       console.log(post);
       alert("Thread updated!");
     },
+    fetchItems: function () {
+      database.collection('forumposts').orderBy('Id', 'desc').get().then((querySnapShot) => {
+        let item = {};
+        querySnapShot.forEach(doc => {
+          item = doc.data();
+          this.posts.push(item);
+          console.log(doc);
+        });
+      });
+    }
   },
   watch: {
     replyBody: function () {
@@ -166,6 +177,7 @@ export default {
     }
   },
   created() {
+    this.fetchItems();
     this.fetchPost();
   }
 }

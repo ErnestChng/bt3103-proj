@@ -19,7 +19,6 @@
       ></ForumPostPlaceHolder>
     </div>
     <CreateForumPost></CreateForumPost>
->>>>>>> luke
   </div>
 </template>
 
