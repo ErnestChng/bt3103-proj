@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="container">
     <h1 style="padding: 20px">COVID-19 Updates and Announcements</h1>
     <table class="table">
       <thead style="background: #2d3f55; color: white;">
@@ -8,7 +8,6 @@
         <td class="border"><strong>Title</strong></td>
       </tr>
       </thead>
-
       <tbody>
       <tr v-for="item in itemsList" :key="item.Id">
         <td class="border" style="width:18%">{{ item.Date }}</td>
@@ -16,19 +15,20 @@
       </tr>
       </tbody>
     </table>
-
   </div>
 </template>
 
 <script>
 import home from "@/assets/home2.jpg";
 import database from '@/firebase.js';
+import aboutvid from "@/assets/aboutvid2.mp4";
 
 export default {
   data() {
     return {
       image: home,
-      itemsList: []
+      itemsList: [],
+      background: aboutvid
     };
   },
   methods: {
@@ -51,6 +51,10 @@ export default {
 </script>
 
 <style scoped>
+#container {
+  min-height: calc(100vh - 100px - 80px - 40px);
+}
+
 .table {
   width: 70%;
   margin-left: auto;

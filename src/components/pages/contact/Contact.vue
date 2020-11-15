@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="container">
     <div class='background' :style="{backgroundImage: `url(${image})`}">
       <div class="text-block">
         <h2>Get in touch with us. We value your feedback!</h2>
@@ -18,12 +18,12 @@
       <div class="column right">
         <div id=app>
           <form class="form" @submit.prevent="sendEmail">
-            <label class="required">Full Name:</label>
-            <input required v-model="name" name='name' type="text"/>
-            <label class="required">Email:</label>
-            <input required v-model='email' name='email' type="email"/><br><br>
-            <label class="required">Your message:</label>
-            <textarea required v-model='message' name='message' rows="6"></textarea><br>
+            <label for="name" class="required">Full Name:</label>
+            <input id="name" required v-model="name" name='name' type="text"/>
+            <label for="email" class="required">Email:</label>
+            <input id="email" required v-model='email' name='email' type="email"/><br><br>
+            <label for="message" class="required">Your message:</label>
+            <textarea id="message" required v-model='message' name='message' rows="6"></textarea><br>
             <hr>
             <p>Note: Responses may take up to 3 working days.</p>
             <input type="submit" value="Send" onclick="return confirm('Submit form?')">
@@ -70,6 +70,9 @@ export default {
 </script>
 
 <style scoped>
+#container {
+  min-height: calc(100vh - 100px - 80px - 40px);
+}
 
 div.background {
   display: flex;
@@ -103,9 +106,8 @@ div.background {
 label {
   padding: 8px;
   display: inline-block;
-  margin: 20px 0 10px;
+  margin: 10px 0 10px;
   width: 35%;
-  align-content: left;
   text-align: left;
 }
 
@@ -116,7 +118,7 @@ textarea, input[type="submit"] {
   width: 65%;
   border-radius: 10px;
   border: 1px solid #2d3f55;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 input[type="submit"] {
@@ -145,8 +147,7 @@ input[type="submit"]:hover {
 .left {
   background-color: #F2F3F4;
   text-align: center;
-  padding: 30px;
-  padding-top: 50px;
+  padding: 50px 30px;
 }
 
 .right {

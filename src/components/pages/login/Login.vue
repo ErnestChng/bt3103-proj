@@ -64,7 +64,7 @@ export default {
           .signInWithEmailAndPassword(this.form.email, this.form.password)
           .then(data => {
             console.log(data);
-            this.$router.replace({path: "/home"});
+            this.$router.replace({path: "/"});
           })
           .catch(err => {
             this.error = err.message;
@@ -75,9 +75,9 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  margin-top: 50px;
-  margin-bottom: 50px;
+.container {
+  min-height: calc(100vh - 100px - 80px - 40px);
+  padding: 100px 0;
 }
 
 .form-group {

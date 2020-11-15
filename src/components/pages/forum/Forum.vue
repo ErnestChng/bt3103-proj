@@ -1,5 +1,5 @@
 <template>
-  <div :style="{backgroundImage: `url(${image})`}">
+  <div id="container" :style="{backgroundImage: `url(${image})`}">
     <div class="divider"></div>
     <h1>FORUM</h1>
     <div class="divider"></div>
@@ -19,11 +19,11 @@ export default {
 </script>
 
 <style scoped>
-div {
+#container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 800px;
+  min-height: calc(100vh - 100px - 80px - 40px);
   color: #FFFFFF;
   font-size: 20px;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
