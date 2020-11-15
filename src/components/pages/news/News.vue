@@ -8,7 +8,6 @@
         <td class="border"><strong>Title</strong></td>
       </tr>
       </thead>
-
       <tbody>
       <tr v-for="item in itemsList" :key="item.Id">
         <td class="border" style="width:18%">{{ item.Date }}</td>
@@ -16,19 +15,20 @@
       </tr>
       </tbody>
     </table>
-
   </div>
 </template>
 
 <script>
 import home from "@/assets/home2.jpg";
 import database from '@/firebase.js';
+import aboutvid from "@/assets/aboutvid2.mp4";
 
 export default {
   data() {
     return {
       image: home,
-      itemsList: []
+      itemsList: [],
+      background: aboutvid
     };
   },
   methods: {

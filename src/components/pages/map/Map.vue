@@ -3,7 +3,6 @@
     <l-map id="map" :zoom="zoom" :center="center" :options="{zoomControl: false}">
       <l-control-zoom position="bottomright"></l-control-zoom>
       <l-tile-layer :url="url"></l-tile-layer>
-
       <div v-if="datacollection.Polyclinics.show">
         <l-marker v-for="mark in datacollection.Polyclinics.data" :lat-lng="[mark.lat, mark.long]" :key="mark.title">
           <l-icon>
@@ -14,12 +13,36 @@
           </l-tooltip>
         </l-marker>
       </div>
-
       <div v-if="datacollection.SASH_for_Children.show">
         <l-marker v-for="mark in datacollection.SASH_for_Children.data" :lat-lng="[mark.lat, mark.long]"
                   :key="mark.title">
           <l-icon>
             <img :src="datacollection.SASH_for_Children.img" style="height:40px;width:40px" alt="sash">
+          </l-icon>
+          <l-tooltip style="text-align: left">{{ mark.name }}<br>Tel: {{ mark.tel }}
+            <br>Hours: {{ mark.hours }}
+            <br>Address: {{ mark.address }}
+          </l-tooltip>
+        </l-marker>
+      </div>
+      <div v-if="datacollection.SASH.show">
+        <l-marker v-for="mark in datacollection.SASH.data" :lat-lng="[mark.lat, mark.long]"
+                  :key="mark.title">
+          <l-icon>
+            <img :src="datacollection.SASH.img" style="height:40px;width:40px" alt="sash">
+          </l-icon>
+          <l-tooltip style="text-align: left">{{ mark.name }}<br>Tel: {{ mark.tel }}
+            <br>Hours: {{ mark.hours }}
+            <br>Address: {{ mark.address }}
+          </l-tooltip>
+        </l-marker>
+      </div>
+
+      <div v-if="datacollection.GPs.show">
+        <l-marker v-for="mark in datacollection.GPs.data" :lat-lng="[mark.lat, mark.long]"
+                  :key="mark.title">
+          <l-icon>
+            <img :src="datacollection.GPs.img" style="height:40px;width:40px" alt="sash">
           </l-icon>
           <l-tooltip style="text-align: left">{{ mark.name }}<br>Tel: {{ mark.tel }}
             <br>Hours: {{ mark.hours }}
