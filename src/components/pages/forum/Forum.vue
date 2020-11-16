@@ -1,7 +1,7 @@
 <template>
   <div id="forumPage" :style="{backgroundImage: `url(${image})`}">
+
     <div id="searchBarPlaceHolder">
-      <SearchBar></SearchBar>
     </div>
 
     <div id="forumBlock">
@@ -25,7 +25,7 @@
 <script>
 import home from "@/assets/home2.jpg";
 import ForumPostPlaceHolder from "@/components/pages/forum/ForumPostPlaceHolder";
-import SearchBar from "@/components/pages/forum/SearchBar";
+//import SearchBar from "@/components/pages/forum/SearchBar";
 import CreateForumPost from "@/components/pages/forum/CreateForumPost";
 import database from "@/firebase";
 
@@ -33,29 +33,59 @@ export default {
   data() {
     return {
       image: home,
-      posts: []
+      posts: [],
+      keyword: this.$route.params.keyword
     };
   },
   components: {
     ForumPostPlaceHolder,
-    SearchBar,
     CreateForumPost
   },
   methods: {
     fetchItems: function() {
+      this.posts = [];
       database.collection("forumposts").get().then((querySnapShot) => {
         let item = {}
         querySnapShot.forEach(doc => {
           item = doc.data()
           item.show = false
-          this.posts.push(item)
+          if (item.id != "0") {
+            this.posts.push(item)
+          }
         })
       })
-      alert("Posts updated!")
+      console.log("All posts updated in forum page!")
+    },
+    fetchItemsWithKeyword: function(string) {
+      string = string + "";
+      this.posts = [];
+      database.collection("forumposts").get().then((querySnapShot) => {
+        let item = {}
+        querySnapShot.forEach(doc => {
+          item = doc.data()
+          item.show = false
+
+          if (item.user.includes(string) ||
+              item.subject.includes(string) ||
+              item.body.includes(string) ||
+              item.category.includes(string)) {
+            this.posts.push(item)
+          }
+        })
+      })
+    }
+  },
+  watch : {
+    '$route' (to, from) {
+      this.id = from.params.id;
+    },
+    keyword: function() {
+      this.fetchItemsWithKeyword(this.keyword);
     }
   },
   created() {
-    this.fetchItems()
+    this.fetchItems(this.keyword);
+    console.log("keyword passed: " + this.keyword);
   }
 };
 </script>
@@ -84,6 +114,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 800px;
   min-height: calc(100vh - 100px - 80px - 40px);
   color: #FFFFFF;
   font-size: 20px;
@@ -98,4 +129,5 @@ export default {
   height: 5px;
   width: 200px;
 }
+
 </style>

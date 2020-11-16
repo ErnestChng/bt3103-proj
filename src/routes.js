@@ -10,7 +10,10 @@ import ForumThread from "./components/pages/forum/ForumThread"
 
 import Error from "./components/pages/error/Error";
 import VueRouter from "vue-router";
+import Vue from "vue";
 import Store from "./store";
+
+Vue.use(VueRouter);
 
 const routes = [
     {path: '/', meta: {requiresAuth: false}, component: Home},
@@ -22,7 +25,8 @@ const routes = [
     {path: '/forum', meta: {requiresAuth: true}, component: Forum},
     {path: '/contact', meta: {requiresAuth: true}, component: Contact},
     {path: '*', meta: {requiresAuth: false}, component: Error},
-    {path: '/thread', component: ForumThread}
+    {path: '/thread/:id', component: ForumThread},
+    {path: '/forum/:keyword', component: Forum}
 ];
 
 const validRoutes = routes.map((e) => e.path);
