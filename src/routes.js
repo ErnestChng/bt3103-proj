@@ -6,7 +6,7 @@ import News from "./components/pages/news/News";
 import Map from "./components/pages/map/Map";
 import Forum from "./components/pages/forum/Forum";
 import Contact from "./components/pages/contact/Contact";
-import ForumThread from "./components/pages/forum/ForumThread"
+import ForumThread from "./components/pages/forum/ForumThread";
 
 import Error from "./components/pages/error/Error";
 import VueRouter from "vue-router";
@@ -25,8 +25,8 @@ const routes = [
     {path: '/forum', meta: {requiresAuth: true}, component: Forum},
     {path: '/contact', meta: {requiresAuth: true}, component: Contact},
     {path: '*', meta: {requiresAuth: false}, component: Error},
-    {path: '/thread/:id', component: ForumThread},
-    {path: '/forum/:keyword', component: Forum}
+    {path: '/thread/:id', meta: {requiresAuth: true}, component: ForumThread},
+    {path: '/forum/:keyword', meta: {requiresAuth: true}, component: Forum}
 ];
 
 const validRoutes = routes.map((e) => e.path);

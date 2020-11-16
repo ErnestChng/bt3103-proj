@@ -4,16 +4,15 @@
     <div id="iconPlaceholder">
       <span id="icon"><i class='fa fa-user'></i></span>
     </div>
-
     <div id="forumHeader">
-      <h3 id="forumTitle" class="text-display"><router-link tag="li" :to="'/thread/' + idCopy">{{getShortenedTitle(subject)}}</router-link></h3>
-      <p id="forumAuthorAndDate" class="text-display">by {{user}} in {{category}}  -  {{getTimestampDisplay()}}</p>
+      <h3 id="forumTitle" class="text-display">
+        <router-link tag="li" :to="'/thread/' + idCopy">{{ getShortenedTitle(subject) }}</router-link>
+      </h3>
+      <p id="forumAuthorAndDate" class="text-display">by {{ user }} in {{ category }} - {{ getTimestampDisplay() }}</p>
     </div>
-
     <div id="forumDetailsPlaceHolder">
-      <p id="forumDetailsText" class="text-display">{{getShortenedBody()}}</p>
+      <p id="forumDetailsText" class="text-display">{{ getShortenedBody() }}</p>
     </div>
-
   </div>
 </template>
 
@@ -24,10 +23,10 @@ export default {
   data() {
     return {
       exampleDateDisplay: "1 day ago at 11:45pm",
-      idCopy : "",
-      threadLink : "",
+      idCopy: "",
+      threadLink: "",
 
-    }
+    };
   },
   props: {
     id: String,
@@ -47,14 +46,14 @@ export default {
     }
   },
   methods: {
-    getShortenedTitle: function(string) {
+    getShortenedTitle: function (string) {
       if (string.length > 130) {
         return string.toString().substr(0, 130).trim() + "...";
       } else {
         return string;
       }
     },
-    getTimestampDisplay: function() {
+    getTimestampDisplay: function () {
       const timeOfPost = new Date(this.timestamp);
       const timeStampNow = new Date();
       const diffTime = Math.abs(timeStampNow - timeOfPost);
@@ -68,24 +67,24 @@ export default {
       } else if (diffDays <= 31) {
         return Math.ceil(diffDays / 7) + " weeks ago";
       } else {
-        const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(timeOfPost);
-        const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(timeOfPost);
-        const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(timeOfPost);
-        return(`${da}-${mo}-${ye}`);
+        const ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(timeOfPost);
+        const mo = new Intl.DateTimeFormat('en', {month: 'short'}).format(timeOfPost);
+        const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(timeOfPost);
+        return (`${da}-${mo}-${ye}`);
       }
     },
-    getShortenedBody: function() {
+    getShortenedBody: function () {
       if (this.body.toString().length < 400) {
         return this.body;
       } else {
-        var lastWhiteSpace = this.body.lastIndexOf(" ")
+        var lastWhiteSpace = this.body.lastIndexOf(" ");
         if (parseInt(lastWhiteSpace) > 400) {
           lastWhiteSpace = 399;
         }
         return this.body.substr(0, parseInt(lastWhiteSpace) - 1) + "...";
       }
     },
-    mapPostId: function() {
+    mapPostId: function () {
       this.idCopy = this.id;
     },
     getRoute: function () {
@@ -96,13 +95,13 @@ export default {
   },
   created() {
     this.mapPostId();
-    console.log("Checking props: subject=" + this.subject)
+    console.log("Checking props: subject=" + this.subject);
     console.log("Mapping post ID to placeholder");
     console.log("Getting thread route");
     this.getRoute();
 
   }
-}
+};
 </script>
 
 <style scoped>
@@ -138,7 +137,7 @@ li {
   overflow: hidden;
 }
 
-#forumAuthorAndDate  {
+#forumAuthorAndDate {
   color: black;
   line-height: 16px;
   position: absolute;
@@ -194,7 +193,6 @@ li {
 #placeholder {
   position: relative;
   background-color: #e6f7ff;
-  /*background-color: #ffffe4;*/
   height: 190px;
   width: 80%;
   alignment: center;
@@ -207,7 +205,7 @@ li {
 }
 
 .text-display {
-  font-family: Helvetica,'serif';
+  font-family: Helvetica, 'serif';
   color: #2c3e50;
   text-shadow: none;
 }

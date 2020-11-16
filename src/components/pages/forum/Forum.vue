@@ -1,9 +1,5 @@
 <template>
   <div id="forumPage" :style="{backgroundImage: `url(${image})`}">
-
-    <div id="searchBarPlaceHolder">
-    </div>
-
     <div id="forumBlock">
       <ForumPostPlaceHolder
           v-for="post in posts"
@@ -25,7 +21,6 @@
 <script>
 import home from "@/assets/home2.jpg";
 import ForumPostPlaceHolder from "@/components/pages/forum/ForumPostPlaceHolder";
-//import SearchBar from "@/components/pages/forum/SearchBar";
 import CreateForumPost from "@/components/pages/forum/CreateForumPost";
 import database from "@/firebase";
 
@@ -42,44 +37,44 @@ export default {
     CreateForumPost
   },
   methods: {
-    fetchItems: function() {
+    fetchItems: function () {
       this.posts = [];
       database.collection("forumposts").get().then((querySnapShot) => {
-        let item = {}
+        let item = {};
         querySnapShot.forEach(doc => {
-          item = doc.data()
-          item.show = false
-          if (item.id != "0") {
-            this.posts.push(item)
+          item = doc.data();
+          item.show = false;
+          if (item.id !== "0") {
+            this.posts.push(item);
           }
-        })
-      })
-      console.log("All posts updated in forum page!")
+        });
+      });
+      console.log("All posts updated in forum page!");
     },
-    fetchItemsWithKeyword: function(string) {
+    fetchItemsWithKeyword: function (string) {
       string = string + "";
       this.posts = [];
       database.collection("forumposts").get().then((querySnapShot) => {
-        let item = {}
+        let item = {};
         querySnapShot.forEach(doc => {
-          item = doc.data()
-          item.show = false
+          item = doc.data();
+          item.show = false;
 
           if (item.user.includes(string) ||
               item.subject.includes(string) ||
               item.body.includes(string) ||
               item.category.includes(string)) {
-            this.posts.push(item)
+            this.posts.push(item);
           }
-        })
-      })
+        });
+      });
     }
   },
-  watch : {
-    '$route' (to, from) {
+  watch: {
+    '$route'(to, from) {
       this.id = from.params.id;
     },
-    keyword: function() {
+    keyword: function () {
       this.fetchItemsWithKeyword(this.keyword);
     }
   },
@@ -91,14 +86,6 @@ export default {
 </script>
 
 <style scoped>
-
-#searchBarPlaceHolder {
-  position: absolute;
-  width: 50%;
-  top: 0;
-  height: 100px;
-}
-
 #forumBlock {
   position: absolute;
   width: 70%;
@@ -121,13 +108,4 @@ export default {
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
 }
-
-.divider {
-  background: #FFFFFF;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  margin: 20px;
-  height: 5px;
-  width: 200px;
-}
-
 </style>

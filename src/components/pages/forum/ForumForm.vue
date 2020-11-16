@@ -1,13 +1,13 @@
 <template>
   <div id="placeholder">
     <div id="firstRow">
-      <p id="subjectLabel" class="text-display">Subject</p><input id="forumTitle" type="text" v-on:keypress.enter="submit" v-model="subject">
+      <p id="subjectLabel" class="text-display">Subject</p>
+      <input id="forumTitle" type="text" v-on:keypress.enter="submit" v-model="subject">
     </div>
-
     <div id="secondRow">
-      <p id="messageLabel" class="text-display">Message</p><textarea id="forumBody" cols="40" rows="5" v-on:keypress.enter="submit" v-model="body"></textarea>
+      <p id="messageLabel" class="text-display">Message</p>
+      <textarea id="forumBody" cols="40" rows="5" v-on:keypress.enter="submit" v-model="body"></textarea>
     </div>
-
     <div id="categorySelect">
       <p class="text-display">Category</p>
       <form>
@@ -33,19 +33,15 @@
         </label>
       </form>
     </div>
-
     <div id="buttonPlaceholder">
       <button class="button" v-on:click="submit()"><span>Submit</span></button>
     </div>
-
     <div id="subjectCannotBeEmpty">
       <p class="warning">*Subject cannot be empty</p>
     </div>
-
     <div id="bodyCannotBeEmpty">
       <p class="warning">*Message cannot be empty</p>
     </div>
-
   </div>
 
 </template>
@@ -65,15 +61,15 @@ export default {
       subjectIsValid: false,
       bodyIsValid: false,
       requireRefresh: false
-    }
+    };
   },
   props: {
-    id : String
+    id: String
   },
   methods: {
     submit() {
       if (!this.subjectIsValid || !this.bodyIsValid) {
-          alert("Please fill in the necessary fields");
+        alert("Please fill in the necessary fields");
       } else {
         var updatedCounter = parseInt(this.postCounter, 10) + 1;
         var post = {
@@ -89,33 +85,33 @@ export default {
             count: 0,
             responses: []
           }
-        }
+        };
         database.collection("forumposts").doc("" + updatedCounter).set(post);
         database.collection("forumposts").doc("0").update({
           count: updatedCounter
         });
         console.log(this.postCounter + " --> " + updatedCounter);
         this.postCounter = updatedCounter + "";
-        console.log("new count: " + this.postCounter)
+        console.log("new count: " + this.postCounter);
         alert("Pushing to firestore ");
       }
     },
-    loadCounter: function() {
+    loadCounter: function () {
       database.collection("forumposts").get().then((querySnapShot) => {
-        let item = {}
+        let item = {};
         querySnapShot.forEach(doc => {
-          item = doc.data()
+          item = doc.data();
           if (item.id === "0") {
             this.postCounter = item.count;
-            console.log("item.count = " + item.count)
-            console.log("this.postCounter = " + this.postCounter)
+            console.log("item.count = " + item.count);
+            console.log("this.postCounter = " + this.postCounter);
           }
-        })
-      })
+        });
+      });
     }
   },
   watch: {
-    subject: function() {
+    subject: function () {
       if (this.subject === "") {
         document.getElementById("subjectLabel").style["color"] = "firebrick";
         document.getElementById("subjectCannotBeEmpty").style.display = "block";
@@ -126,7 +122,7 @@ export default {
         this.subjectIsValid = true;
       }
     },
-    body: function() {
+    body: function () {
       if (this.body === "") {
         document.getElementById("messageLabel").style["color"] = "firebrick";
         document.getElementById("bodyCannotBeEmpty").style.display = "block";
@@ -140,14 +136,14 @@ export default {
   },
   created() {
     this.loadCounter();
-    console.log("this.user.data.displayName = " + this.user.data.displayName)
+    console.log("this.user.data.displayName = " + this.user.data.displayName);
   },
   computed: {
     ...mapGetters({
       user: "user"
     })
   }
-}
+};
 </script>
 
 <style scoped>
@@ -344,7 +340,7 @@ button {
 }
 
 .button:hover span:after {
-  opacity: 1  ;
+  opacity: 1;
   right: 0;
 }
 

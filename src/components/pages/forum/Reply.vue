@@ -1,11 +1,11 @@
 <template>
   <div id="placeholder">
     <div id="replyHeader">
-      <span id="timestamp">{{getTimestampDisplay()}}</span>
-      <span id="user">From: {{sender}}</span>
+      <span id="timestamp">{{ getTimestampDisplay() }}</span>
+      <span id="user">From: {{ sender }}</span>
     </div>
     <div id="replyContent">
-      <p>{{body}}</p>
+      <p>{{ body }}</p>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
           "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
           "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
           "mollit anim id est laborum."
-    }
+    };
   },
   props: {
     sender: String,
@@ -28,14 +28,14 @@ export default {
     body: String
   },
   methods: {
-    getTimestampDisplay: function() {
+    getTimestampDisplay: function () {
       const timeOfPost = new Date(this.date);
       const timeStampNow = new Date();
       const diffTime = Math.abs(timeStampNow - timeOfPost);
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       if (diffDays <= 7) {
         var pluralSuffix = "s";
-        if (diffDays == 1) {
+        if (diffDays === 1) {
           pluralSuffix = "";
         }
         return diffDays.toString() + " day" + pluralSuffix + " ago";
@@ -44,15 +44,19 @@ export default {
       } else {
         var date = new Date(timeOfPost);
         var dd = date.getDate();
-        var mm = date.getMonth()+1;
+        var mm = date.getMonth() + 1;
         var yyyy = date.getFullYear();
-        if(dd<10){dd='0'+dd}
-        if(mm<10){mm='0'+mm}
-        return dd+'/'+mm+'/'+yyyy
+        if (dd < 10) {
+          dd = '0' + dd;
+        }
+        if (mm < 10) {
+          mm = '0' + mm;
+        }
+        return dd + '/' + mm + '/' + yyyy;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

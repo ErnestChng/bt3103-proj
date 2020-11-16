@@ -1,33 +1,28 @@
 <template>
   <div id="placeholder">
-
     <div id="modalWindow" class="modal">
-
       <div class="modal-content">
         <span class="close" v-on:click="toggleModal()">&times;</span>
         <ForumForm></ForumForm>
       </div>
-
     </div>
-
     <div id="chatId" class="chat" v-on:click="toggleModal()">
       <div class="background"></div>
       <svg class="chat-bubble" width="100" height="100" viewBox="0 0 100 100">
         <g class="bubble">
           <path class="line line1" d="M 30.7873,85.113394 30.7873,46.556405 C 30.7873,41.101961
           36.826342,35.342 40.898074,35.342 H 59.113981 C 63.73287,35.342
-          69.29995,40.103201 69.29995,46.784744" />
+          69.29995,40.103201 69.29995,46.784744"/>
           <path class="line line2" d="M 13.461999,65.039335 H 58.028684 C
             63.483128,65.039335
             69.243089,59.000293 69.243089,54.928561 V 45.605853 C
-            69.243089,40.986964 65.02087,35.419884 58.339327,35.419884" />
+            69.243089,40.986964 65.02087,35.419884 58.339327,35.419884"/>
         </g>
-        <circle class="circle circle1" r="1.9" cy="50.7" cx="42.5" />
-        <circle class="circle circle2" cx="49.9" cy="50.7" r="1.9" />
-        <circle class="circle circle3" r="1.9" cy="50.7" cx="57.3" />
+        <circle class="circle circle1" r="1.9" cy="50.7" cx="42.5"/>
+        <circle class="circle circle2" cx="49.9" cy="50.7" r="1.9"/>
+        <circle class="circle circle3" r="1.9" cy="50.7" cx="57.3"/>
       </svg>
     </div>
-
   </div>
 </template>
 
@@ -36,21 +31,21 @@ import ForumForm from "@/components/pages/forum/ForumForm";
 
 export default {
   name: "CreateForumPostModalBox.vue",
-  components : {
+  components: {
     ForumForm
   },
   data() {
     return {
       modalIsOpen: false
-    }
+    };
   },
   methods: {
-    toggleModal: function() {
+    toggleModal: function () {
       this.modalIsOpen = !this.modalIsOpen;
     }
   },
   watch: {
-    modalIsOpen: function() {
+    modalIsOpen: function () {
       if (this.modalIsOpen) {
         document.getElementById("modalWindow").style.display = "block";
       } else {
@@ -60,7 +55,7 @@ export default {
       // alert(this.modalIsOpen);
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -79,8 +74,8 @@ export default {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */

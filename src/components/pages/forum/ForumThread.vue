@@ -6,24 +6,21 @@
         <div id="iconPlaceholder">
           <span id="icon"><i id="userIcon" class="fa fa-user"></i></span>
         </div>
-
         <div id="forumHeader">
-          <h3 id="forumTitle" class="text-display">{{subject}}</h3>
-          <p id="forumAuthorAndDate" class="text-display">by {{userName}} in {{category}} - {{getDateDisplay()}} at {{getTimeDisplay()}}</p>
+          <h3 id="forumTitle" class="text-display">{{ subject }}</h3>
+          <p id="forumAuthorAndDate" class="text-display">by {{ userName }} in {{ category }} - {{ getDateDisplay() }}
+            at {{ getTimeDisplay() }}</p>
         </div>
-
         <div id="buttonsPlaceholder">
           <i id="likeButton" class="fa fa-thumbs-up" v-on:click="pressLike()"></i>
-          <p id="likeCounter">{{likes}}</p>
+          <p id="likeCounter">{{ likes }}</p>
           <i id="replyButton" class="fa fa-mail-reply" v-on:click="openModal"></i>
-          <p id="replyCounter">{{getNumReplies()}}</p>
+          <p id="replyCounter">{{ getNumReplies() }}</p>
         </div>
-
         <div id="forumDetailsPlaceHolder">
-          <p id="forumDetailsText" class="text-display">{{body}}</p>
+          <p id="forumDetailsText" class="text-display">{{ body }}</p>
         </div>
       </div>
-
       <div class="replies" id="repliesDiv">
         <Reply
             v-for="response in replies.responses"
@@ -33,33 +30,27 @@
             v-bind:key="response.key"
         ></Reply>
       </div>
-
     </div>
-
     <div id="modalWindow" class="modal">
-
       <div class="modal-content">
         <span class="closeContainer"><span class="close" v-on:click="closeModal()">&times;</span></span>
-
         <div id="replyContentDisplay">
           <div id="replyContentHeader">
-            <span id="titleDisplay">{{subject}}</span>
+            <span id="titleDisplay">{{ subject }}</span>
           </div>
           <div id="postDetailsDisplay">
-            <span class="text-display">by {{user}} in {{category}} - {{getDateDisplay()}} at {{getTimeDisplay()}}</span>
+            <span class="text-display">
+              by {{ userName }} in {{ category }} - {{ getDateDisplay() }} at {{ getTimeDisplay() }}
+            </span>
           </div>
-          <div id="postBodyDisplay" class="text-display">{{body}}</div>
+          <div id="postBodyDisplay" class="text-display">{{ body }}</div>
         </div>
-
         <textarea id="textArea" rows="10" cols="100" v-model="replyBody"></textarea>
-
         <div id="buttonPlaceholder">
           <button class="button" v-on:click="submit"><span>Submit</span></button>
         </div>
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -95,7 +86,7 @@ export default {
           body: ""
         }]
       }
-    }
+    };
   },
   methods: {
     openModal: function () {
@@ -120,7 +111,7 @@ export default {
         alert("Field cannot be empty");
       }
     },
-    pressLike: function() {
+    pressLike: function () {
       if (!this.hasLiked) {
         document.getElementById("likeButton").style.color = "firebrick";
         this.hasLiked = true;
@@ -147,13 +138,13 @@ export default {
 
       if (diffDays <= 7) {
         var pluralSuffixDay = "s";
-        if (diffDays == 1) {
+        if (diffDays === 1) {
           pluralSuffixDay = "";
         }
         return diffDays.toString() + " day" + pluralSuffixDay + " ago";
       } else if (diffDays <= 31) {
         var pluralSuffixWeek = "s";
-        if (diffDays == 1) {
+        if (diffDays === 1) {
           pluralSuffixWeek = "";
         }
         return Math.ceil(diffDays / 7) + " week" + pluralSuffixWeek + " ago";
@@ -171,12 +162,12 @@ export default {
       minutes = minutes < 10 ? '0' + minutes : minutes;
       return hours + ':' + minutes + ' ' + ampm;
     },
-    fetchPost: function() {
+    fetchPost: function () {
       database.collection("forumposts").get().then((querySnapShot) => {
-        let item = {}
+        let item = {};
         querySnapShot.forEach(doc => {
-          item = doc.data()
-          if (item.id == this.id) {
+          item = doc.data();
+          if (item.id === this.id) {
             this.userName = item.user;
             this.subject = item.subject;
             this.body = item.body;
@@ -187,27 +178,23 @@ export default {
             console.log("Retrieving data for forum thread");
             console.log("item.user : " + item.user);
           }
-        })
-      })
+        });
+      });
     },
-    getNumReplies: function() {
+    getNumReplies: function () {
       return this.replies.responses.length;
     }
   },
   watch: {
     replyBody: function () {
-      if (this.replyBody === "") {
-        this.isValid = false;
-      } else {
-        this.isValid = true;
-      }
+      this.isValid = this.replyBody !== "";
     },
-    id: function() {
+    id: function () {
       database.collection("forumposts").get().then((querySnapShot) => {
-        let item = {}
+        let item = {};
         querySnapShot.forEach(doc => {
-          item = doc.data()
-          if (item.id == this.id) {
+          item = doc.data();
+          if (item.id === this.id) {
             this.userName = item.user;
             this.subject = item.subject;
             this.body = item.body;
@@ -218,8 +205,8 @@ export default {
             console.log("Retrieving data for forum thread");
             console.log("item.user : " + item.user);
           }
-        })
-      })
+        });
+      });
     }
   },
   created() {
@@ -230,11 +217,10 @@ export default {
       user: "user"
     })
   }
-}
+};
 </script>
 
 <style scoped>
-
 .blockElements {
   height: 100%;
   width: 100%;
@@ -286,7 +272,7 @@ export default {
   width: 100%;
   height: auto;
   bottom: 0;
- }
+}
 
 #buttonPlaceholder {
   height: max-content;
@@ -339,7 +325,7 @@ button {
 }
 
 .button:hover span:after {
-  opacity: 1  ;
+  opacity: 1;
   right: 0;
 }
 
@@ -374,8 +360,8 @@ textarea {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
   overflow-x: hidden;
 }
 
@@ -497,6 +483,7 @@ textarea {
   font-size: 20px;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+  min-height: calc(100vh - 100px - 80px - 40px);
 }
 
 #iconPlaceholder {
@@ -534,7 +521,6 @@ textarea {
   position: absolute;
   display: block;
   top: 100%;
-  /*background-color: seagreen;*/
 }
 
 #forumDetailsText {
@@ -569,9 +555,4 @@ textarea {
   color: #2c3e50;
   text-shadow: none;
 }
-
-.hidden {
-  display: none;
-}
-
 </style>
