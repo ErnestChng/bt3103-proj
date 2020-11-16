@@ -6,9 +6,14 @@ import News from "./components/pages/news/News";
 import Map from "./components/pages/map/Map";
 import Forum from "./components/pages/forum/Forum";
 import Contact from "./components/pages/contact/Contact";
+import ForumThread from "./components/pages/forum/ForumThread"
+
 import Error from "./components/pages/error/Error";
 import VueRouter from "vue-router";
+import Vue from "vue";
 import Store from "./store";
+
+Vue.use(VueRouter);
 
 const routes = [
     {path: '/', meta: {requiresAuth: false}, component: Home},
@@ -19,7 +24,9 @@ const routes = [
     {path: '/map', meta: {requiresAuth: true}, component: Map},
     {path: '/forum', meta: {requiresAuth: true}, component: Forum},
     {path: '/contact', meta: {requiresAuth: true}, component: Contact},
-    {path: '*', meta: {requiresAuth: false}, component: Error}
+    {path: '*', meta: {requiresAuth: false}, component: Error},
+    {path: '/thread/:id', component: ForumThread},
+    {path: '/forum/:keyword', component: Forum}
 ];
 
 const validRoutes = routes.map((e) => e.path);
@@ -47,5 +54,4 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-
 export default router;
