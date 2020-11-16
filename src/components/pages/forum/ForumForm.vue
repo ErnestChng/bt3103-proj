@@ -35,7 +35,7 @@
     </div>
 
     <div id="buttonPlaceholder">
-      <button class="button" v-on:click="submit"><span>Submit</span></button>
+      <button class="button" v-on:click="submit()"><span>Submit</span></button>
     </div>
 
     <div id="subjectCannotBeEmpty">
@@ -46,48 +46,72 @@
       <p class="warning">*Message cannot be empty</p>
     </div>
 
-
   </div>
+
 </template>
 
 <script>
 import database from "@/firebase";
+import {mapGetters} from "vuex";
 
 export default {
   name: "ForumForm.vue",
   data() {
     return {
+      postCounter: "",
       subject: "",
       body: "",
       category: "General",
       subjectIsValid: false,
       bodyIsValid: false,
-      submitOnce: false
+      requireRefresh: false
     }
+  },
+  props: {
+    id : String
   },
   methods: {
     submit() {
-      if (!(this.subjectIsValid && this.bodyIsValid && !this.submitOnce)) {
-        if (!this.subjectIsValid || this.bodyIsValid) {
-          alert("Please make the necessary changes");
-        }
-        if (this.submitOnce) {
-          alert("Cannot submit the same post twice!");
-        }
+      if (!this.subjectIsValid || !this.bodyIsValid) {
+          alert("Please fill in the necessary fields");
       } else {
+        var updatedCounter = parseInt(this.postCounter, 10) + 1;
         var post = {
-          user: "user" + Math.floor((Math.random() * 1000) + 1),
+          id: updatedCounter + "",
+          /*user: "user" + Math.floor((Math.random() * 10000) + 1),*/
+          user: this.user.data.displayName,
           subject: this.subject,
           body: this.body,
           timestamp: new Date().toUTCString(),
           category: this.category,
           likes: 0,
-          replies: null
+          replies: {
+            count: 0,
+            responses: []
+          }
         }
-        database.collection("forumposts").add(post);
-        alert("Pushing to db " + post.toString());
-        this.submitOnce = true;
+        database.collection("forumposts").doc("" + updatedCounter).set(post);
+        database.collection("forumposts").doc("0").update({
+          count: updatedCounter
+        });
+        console.log(this.postCounter + " --> " + updatedCounter);
+        this.postCounter = updatedCounter + "";
+        console.log("new count: " + this.postCounter)
+        alert("Pushing to firestore ");
       }
+    },
+    loadCounter: function() {
+      database.collection("forumposts").get().then((querySnapShot) => {
+        let item = {}
+        querySnapShot.forEach(doc => {
+          item = doc.data()
+          if (item.id === "0") {
+            this.postCounter = item.count;
+            console.log("item.count = " + item.count)
+            console.log("this.postCounter = " + this.postCounter)
+          }
+        })
+      })
     }
   },
   watch: {
@@ -101,9 +125,6 @@ export default {
         document.getElementById("subjectCannotBeEmpty").style.display = "none";
         this.subjectIsValid = true;
       }
-      if (this.submitOnce) {
-        this.submitOnce = !this.submitOnce;
-      }
     },
     body: function() {
       if (this.body === "") {
@@ -115,10 +136,16 @@ export default {
         document.getElementById("bodyCannotBeEmpty").style.display = "none";
         this.bodyIsValid = true;
       }
-      if (this.submitOnce) {
-        this.submitOnce = !this.submitOnce;
-      }
     }
+  },
+  created() {
+    this.loadCounter();
+    console.log("this.user.data.displayName = " + this.user.data.displayName)
+  },
+  computed: {
+    ...mapGetters({
+      user: "user"
+    })
   }
 }
 </script>
@@ -126,7 +153,7 @@ export default {
 <style scoped>
 #placeholder {
   position: relative;
-  top: 10%;
+  top: 4%;
 }
 
 #firstRow, #secondRow, #categorySelect, #buttonPlaceholder, #subjectCannotBeEmpty, #bodyCannotBeEmpty {
@@ -140,17 +167,17 @@ export default {
 }
 
 #secondRow {
-  top: 12%;
+  top: 15%;
   height: 45%;
 }
 
 #categorySelect {
-  top: 57%;
+  top: 68%;
   height: 10%;
 }
 
 #buttonPlaceholder {
-  top: 70%;
+  top: 80%;
   height: 13%;
 }
 
@@ -207,8 +234,8 @@ input[type=text], textarea {
 .radio-inline {
   display: inline-block;
   position: relative;
-  padding-top: 12px;
-  padding-right: 38px;
+  padding-top: 8px;
+  padding-right: 34px;
   cursor: pointer;
   font-size: 16px;
   -webkit-user-select: none;

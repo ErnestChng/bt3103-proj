@@ -98,9 +98,9 @@ export default {
 /* The Close Button */
 .close {
   color: #aaa;
-  float: right;
   font-size: 28px;
   font-weight: bold;
+  text-align: right;
 }
 
 .close:hover, .close:focus {

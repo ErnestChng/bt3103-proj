@@ -1,14 +1,12 @@
 <template>
   <div id="placeholder">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div id="iconPlaceholder">
-      <span id="icon">HR</span>
+      <span id="icon"><i class='fa fa-user'></i></span>
     </div>
 
     <div id="forumHeader">
-      <h3 id="forumTitle" class="text-display"><router-link tag="li" to="/thread" exact
-                                                            v-bind:id="id"
-      >{{getShortenedTitle(subject)}}</router-link></h3>
+      <h3 id="forumTitle" class="text-display"><router-link tag="li" :to="'/thread/' + idCopy">{{getShortenedTitle(subject)}}</router-link></h3>
       <p id="forumAuthorAndDate" class="text-display">by {{user}} in {{category}}  -  {{getTimestampDisplay()}}</p>
     </div>
 
@@ -25,7 +23,10 @@ export default {
   name: "ForumPostPlaceHolder.vue",
   data() {
     return {
-      exampleDateDisplay: "1 day ago at 11:45pm"
+      exampleDateDisplay: "1 day ago at 11:45pm",
+      idCopy : "",
+      threadLink : "",
+
     }
   },
   props: {
@@ -36,19 +37,19 @@ export default {
     timestamp: String,
     category: String,
     likes: Number,
-    replies: [{
+    replies: {
       count: Number,
       responses: [{
         sender: String,
         date: String,
         body: String
-      }],
-    }]
+      }]
+    }
   },
   methods: {
     getShortenedTitle: function(string) {
-      if (string.length > 150) {
-        return string.substr(0, 144) + "...";
+      if (string.length > 130) {
+        return string.toString().substr(0, 130).trim() + "...";
       } else {
         return string;
       }
@@ -74,21 +75,44 @@ export default {
       }
     },
     getShortenedBody: function() {
-      if (this.body.length < 630) {
+      if (this.body.toString().length < 400) {
         return this.body;
       } else {
         var lastWhiteSpace = this.body.lastIndexOf(" ")
-        if (lastWhiteSpace < 0 || lastWhiteSpace > 630) {
-          lastWhiteSpace = 630;
+        if (parseInt(lastWhiteSpace) > 400) {
+          lastWhiteSpace = 399;
         }
-        return this.body.substr(0, lastWhiteSpace - 1) + "...";
+        return this.body.substr(0, parseInt(lastWhiteSpace) - 1) + "...";
       }
+    },
+    mapPostId: function() {
+      this.idCopy = this.id;
+    },
+    getRoute: function () {
+      this.threadLink =
+          "<router-link tag=\"li\" to=\"/thread/" + this.idCopy + "\">"
+          + this.getShortenedTitle(this.subject) + "</router-link>";
     }
+  },
+  created() {
+    this.mapPostId();
+    console.log("Checking props: subject=" + this.subject)
+    console.log("Mapping post ID to placeholder");
+    console.log("Getting thread route");
+    this.getRoute();
+
   }
 }
 </script>
 
 <style scoped>
+
+i {
+  font-size: 34px;
+  color: whitesmoke;
+  z-index: 2;
+  padding-top: 12px;
+}
 
 li {
   text-decoration: none;
@@ -99,29 +123,30 @@ li {
 #forumDetailsText {
   text-align: left;
   font-size: 17px;
-  padding: 0px 14px 12px 0;
+  padding: 0px 14px 18px 0;
   line-height: 20px;
   height: 100%;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 #forumDetailsPlaceHolder {
   position: absolute;
   width: 85%;
-  height: 70%;
+  height: 60%;
   right: 0;
   bottom: 0;
   overflow: hidden;
 }
 
 #forumAuthorAndDate  {
-  line-height: 20px;
+  color: black;
+  line-height: 16px;
   position: absolute;
   width: 97%;
   text-align: right;
   bottom: 0;
   font-size: 14px;
-  padding-right: 10%;
+  padding-right: 10px;
   margin-bottom: 0;
 
 }
@@ -133,15 +158,16 @@ li {
   margin-top: 0;
   width: 97%;
   font-size: 18px;
+  font-weight: bold;
   text-align: left;
-  padding: 4px;
-  overflow: auto;
+  padding: 8px 0 0 0;
+  overflow: hidden;
 }
 
 #forumHeader {
   position: absolute;
   width: 85%;
-  height: 30%;
+  height: 40%;
   top: 0;
   right: 0;
   overflow: hidden;
@@ -169,8 +195,8 @@ li {
   position: relative;
   background-color: #e6f7ff;
   /*background-color: #ffffe4;*/
-  height: 200px;
-  width: 85%;
+  height: 190px;
+  width: 80%;
   alignment: center;
   border-radius: 10px;
   box-shadow: none;
@@ -181,7 +207,7 @@ li {
 }
 
 .text-display {
-  font-family: Helvetica;
+  font-family: Helvetica,'serif';
   color: #2c3e50;
   text-shadow: none;
 }

@@ -1,11 +1,11 @@
 <template>
   <div id="placeholder">
     <div id="replyHeader">
-      <span id="timestamp">10-09-2020, 08:41 PM</span>
-      <span id="user">From: John Doe</span>
+      <span id="timestamp">{{getTimestampDisplay()}}</span>
+      <span id="user">From: {{sender}}</span>
     </div>
     <div id="replyContent">
-      <p>{{exampleText}}</p>
+      <p>{{body}}</p>
     </div>
   </div>
 </template>
@@ -21,6 +21,36 @@ export default {
           "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
           "mollit anim id est laborum."
     }
+  },
+  props: {
+    sender: String,
+    date: String,
+    body: String
+  },
+  methods: {
+    getTimestampDisplay: function() {
+      const timeOfPost = new Date(this.date);
+      const timeStampNow = new Date();
+      const diffTime = Math.abs(timeStampNow - timeOfPost);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays <= 7) {
+        var pluralSuffix = "s";
+        if (diffDays == 1) {
+          pluralSuffix = "";
+        }
+        return diffDays.toString() + " day" + pluralSuffix + " ago";
+      } else if (diffDays <= 31) {
+        return Math.ceil(diffDays / 7) + " weeks ago";
+      } else {
+        var date = new Date(timeOfPost);
+        var dd = date.getDate();
+        var mm = date.getMonth()+1;
+        var yyyy = date.getFullYear();
+        if(dd<10){dd='0'+dd}
+        if(mm<10){mm='0'+mm}
+        return dd+'/'+mm+'/'+yyyy
+      }
+    }
   }
 }
 </script>
@@ -29,6 +59,7 @@ export default {
 #placeholder {
   width: 100%;
   height: auto;
+  margin-bottom: 4px;
 }
 
 #replyContent {
@@ -51,8 +82,7 @@ export default {
 
 #replyHeader {
   background-color: #99c2ff;
-  height: 18px;
-  padding: 5px 10px 5px 10px;
+  height: auto;
 }
 
 #replyHeader #timestamp {
@@ -63,6 +93,7 @@ export default {
   font-weight: bold;
   position: relative;
   float: left;
+  padding-left: 16px;
 }
 
 #replyHeader #user {
@@ -72,5 +103,6 @@ export default {
   font-size: 14px;
   font-weight: bold;
   float: right;
+  padding-right: 16px;
 }
 </style>

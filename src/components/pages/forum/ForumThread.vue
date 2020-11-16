@@ -1,45 +1,54 @@
 <template>
   <div id="threadPage" :style="{backgroundImage: `url(${image})`}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <div class="blockElements">
+      <div id="thread">
+        <div id="iconPlaceholder">
+          <span id="icon"><i id="userIcon" class="fa fa-user"></i></span>
+        </div>
 
-    <div id="thread">
-      <div id="iconPlaceholder">
-        <span id="icon">HR</span>
+        <div id="forumHeader">
+          <h3 id="forumTitle" class="text-display">{{subject}}</h3>
+          <p id="forumAuthorAndDate" class="text-display">by {{userName}} in {{category}} - {{getDateDisplay()}} at {{getTimeDisplay()}}</p>
+        </div>
+
+        <div id="buttonsPlaceholder">
+          <i id="likeButton" class="fa fa-thumbs-up" v-on:click="pressLike()"></i>
+          <p id="likeCounter">{{likes}}</p>
+          <i id="replyButton" class="fa fa-mail-reply" v-on:click="openModal"></i>
+          <p id="replyCounter">{{getNumReplies()}}</p>
+        </div>
+
+        <div id="forumDetailsPlaceHolder">
+          <p id="forumDetailsText" class="text-display">{{body}}</p>
+        </div>
       </div>
 
-      <div id="forumHeader">
-        <h3 id="forumTitle" class="text-display">{{subject}}</h3>
-        <p id="forumAuthorAndDate" class="text-display">by {{user}} in {{category}} - {{getDateDisplay()}} at {{getTimeDisplay()}}</p>
+      <div class="replies" id="repliesDiv">
+        <Reply
+            v-for="response in replies.responses"
+            v-bind:sender="response.sender"
+            v-bind:date="response.date"
+            v-bind:body="response.body"
+            v-bind:key="response.key"
+        ></Reply>
       </div>
 
-      <div id="buttonsPlaceholder">
-        <i id="likeButton" class="fa fa-thumbs-up"></i>
-        <p id="likeCounter">12</p>
-        <i id="replyButton" class="fa fa-mail-reply" v-on:click="openModal"></i>
-        <p id="replyCounter">5</p>
-      </div>
-    </div>
-
-    <div id="forumDetailsPlaceHolder">
-      <p id="forumDetailsText" class="text-display">{{exampleText}}</p>
-    </div>
-
-    <div id="repliesDiv">
-      <Reply></Reply>
-      <Reply></Reply>
-      <Reply></Reply>
-      <Reply></Reply>
-      <Reply></Reply>
-      <p id="noReplyMessage">There are no replies yet..</p>
     </div>
 
     <div id="modalWindow" class="modal">
 
       <div class="modal-content">
-        <span class="close" v-on:click="closeModal()">&times;</span>
+        <span class="closeContainer"><span class="close" v-on:click="closeModal()">&times;</span></span>
 
-        <div id="replyForm">
-          <Reply></Reply>
+        <div id="replyContentDisplay">
+          <div id="replyContentHeader">
+            <span id="titleDisplay">{{subject}}</span>
+          </div>
+          <div id="postDetailsDisplay">
+            <span class="text-display">by {{user}} in {{category}} - {{getDateDisplay()}} at {{getTimeDisplay()}}</span>
+          </div>
+          <div id="postBodyDisplay" class="text-display">{{body}}</div>
         </div>
 
         <textarea id="textArea" rows="10" cols="100" v-model="replyBody"></textarea>
@@ -58,6 +67,7 @@
 import home from "@/assets/home2.jpg";
 import Reply from "@/components/pages/forum/Reply";
 import database from "@/firebase";
+import {mapGetters} from "vuex";
 
 export default {
   name: "ForumThread.vue",
@@ -66,33 +76,26 @@ export default {
   },
   data() {
     return {
-      posts: [],
+      id: this.$route.params.id,
       image: home,
-      exampleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
-          "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-          "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
-          "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
-          "mollit anim id est laborum.",
       replyBody: "",
       isValid: false,
-      user: String,
-      subject: String,
-      body: String,
-      timestamp: String,
-      category: String,
-      likes: Number,
-      replies: [{
-        count: Number,
+      hasLiked: false,
+      userName: "",
+      subject: "",
+      body: "",
+      timestamp: "",
+      category: "",
+      likes: "",
+      replies: {
+        count: "",
         responses: [{
-          sender: String,
-          date: String,
-          body: String
+          sender: "",
+          date: "",
+          body: ""
         }]
-      }]
+      }
     }
-  },
-  props: {
-    id: String
   },
   methods: {
     openModal: function () {
@@ -103,15 +106,43 @@ export default {
     },
     submit: function () {
       if (this.isValid) {
-        // insert code stub
+        this.replies.count = parseInt(this.replies.count) + 1;
+        this.replies.responses.push({
+          sender: this.user.data.displayName,
+          date: new Date().toUTCString(),
+          body: this.replyBody
+        });
+        database.collection("forumposts").doc(this.id + "").update({
+          replies: this.replies
+        });
+        console.log("successfully added reply");
       } else {
         alert("Field cannot be empty");
+      }
+    },
+    pressLike: function() {
+      if (!this.hasLiked) {
+        document.getElementById("likeButton").style.color = "firebrick";
+        this.hasLiked = true;
+        var likesCountPlus = parseInt(this.likes) + 1;
+        this.likes = likesCountPlus + "";
+        database.collection("forumposts").doc(this.id + "").update({
+          likes: parseInt(this.likes)
+        });
+      } else {
+        document.getElementById("likeButton").style.color = "#808080";
+        this.hasLiked = false;
+        var likesCountMinus = parseInt(this.likes) - 1;
+        this.likes = likesCountMinus + "";
+        database.collection("forumposts").doc(this.id + "").update({
+          likes: parseInt(this.likes)
+        });
       }
     },
     getDateDisplay: function () {
       const timeOfPost = new Date(this.timestamp);
       const timeStampNow = new Date();
-      const diffTime = Math.abs(timeStampNow - timeOfPost);
+      const diffTime = Math.abs(timeStampNow.getMilliseconds() - timeOfPost.getMilliseconds());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
       if (diffDays <= 7) {
@@ -128,10 +159,6 @@ export default {
         return Math.ceil(diffDays / 7) + " week" + pluralSuffixWeek + " ago";
       } else {
         return new Date(this.timestamp).toLocaleString().split(',')[0];
-        /*const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(timeOfPost);
-        const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(timeOfPost);
-        const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(timeOfPost);
-        return (`${da}-${mo}-${ye}`);*/
       }
     },
     getTimeDisplay: function () {
@@ -144,27 +171,27 @@ export default {
       minutes = minutes < 10 ? '0' + minutes : minutes;
       return hours + ':' + minutes + ' ' + ampm;
     },
-    fetchPost: function () {
-      var post = this.posts[0];
-      this.user = post.user;
-      this.subject = post.subject;
-      this.body = post.body;
-      this.timestamp = post.timestamp;
-      this.category = post.category;
-      this.likes = post.likes;
-      this.replies = post.replies;
-      console.log(post);
-      alert("Thread updated!");
-    },
-    fetchItems: function () {
-      database.collection('forumposts').orderBy('Id', 'desc').get().then((querySnapShot) => {
-        let item = {};
+    fetchPost: function() {
+      database.collection("forumposts").get().then((querySnapShot) => {
+        let item = {}
         querySnapShot.forEach(doc => {
-          item = doc.data();
-          this.posts.push(item);
-          console.log(doc);
-        });
-      });
+          item = doc.data()
+          if (item.id == this.id) {
+            this.userName = item.user;
+            this.subject = item.subject;
+            this.body = item.body;
+            this.timestamp = item.timestamp;
+            this.category = item.category;
+            this.likes = item.likes;
+            this.replies = item.replies;
+            console.log("Retrieving data for forum thread");
+            console.log("item.user : " + item.user);
+          }
+        })
+      })
+    },
+    getNumReplies: function() {
+      return this.replies.responses.length;
     }
   },
   watch: {
@@ -174,21 +201,98 @@ export default {
       } else {
         this.isValid = true;
       }
+    },
+    id: function() {
+      database.collection("forumposts").get().then((querySnapShot) => {
+        let item = {}
+        querySnapShot.forEach(doc => {
+          item = doc.data()
+          if (item.id == this.id) {
+            this.userName = item.user;
+            this.subject = item.subject;
+            this.body = item.body;
+            this.timestamp = item.timestamp;
+            this.category = item.category;
+            this.likes = item.likes;
+            this.replies = item.replies;
+            console.log("Retrieving data for forum thread");
+            console.log("item.user : " + item.user);
+          }
+        })
+      })
     }
   },
   created() {
-    this.fetchItems();
     this.fetchPost();
+  },
+  computed: {
+    ...mapGetters({
+      user: "user"
+    })
   }
 }
 </script>
 
 <style scoped>
 
-#buttonPlaceholder {
+.blockElements {
+  height: 100%;
+  width: 100%;
+  padding-top: 50px;
+}
+
+#postBodyDisplay {
+  width: 100%;
   height: auto;
+  min-height: 40px;
+  word-wrap: break-word;
+  font-size: 16px;
+  font-family: Helvetica;
+  text-shadow: none;
+  text-align: left;
+  padding: 5px;
+  overflow: scroll;
+  overflow-x: hidden;
+  background-color: snow;
+}
+
+#postDetailsDisplay {
+  width: 100%;
+  text-align: right;
+  padding-right: 8px;
+  background-color: snow;
+}
+
+#postDetailsDisplay span {
+  font-size: 14px;
+}
+
+#replyContentHeader {
+  width: 100%;
+  height: auto;
+  min-height: 30px;
+  word-wrap: break-word;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Helvetica;
+  text-shadow: none;
+  text-align: left;
+  padding: 5px;
+  background-color: #cccccc;
+}
+
+#replyContentDisplay {
+  width: 100%;
+  height: auto;
+  bottom: 0;
+ }
+
+#buttonPlaceholder {
+  height: max-content;
   position: relative;
-  bottom: 40%;
+  bottom: 0;
+  margin-top: 10px;
 }
 
 button {
@@ -242,23 +346,15 @@ button {
 textarea {
   position: relative;
   padding: 8px;
-  margin-top: 20px;
-  bottom: 45%;
-  height: auto;
+  height: 150px;
+  max-height: 200px;
+  font-size: 14px;
 }
-
-#replyForm {
-  width: 100%;
-  height: 500px;
-  position: relative;
-  top: 6%;
-}
-
 
 /* The Close Button */
 .close {
   color: #aaa;
-  float: right;
+  text-align: right;
   font-size: 28px;
   font-weight: bold;
 }
@@ -286,7 +382,7 @@ textarea {
 /* Modal Content/Box */
 .modal-content {
   background-color: #dee5ed;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 10% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
@@ -298,44 +394,36 @@ textarea {
 #forumHeader {
   position: absolute;
   right: 15%;
-  top: 0;
+  bottom: 0;
   width: 70%;
   height: auto;
+  padding-top: 5%;
   max-height: 150px;
 }
 
 #thread {
   width: 60%;
+  max-height: 40%;
   background-color: #e6f7ff;
-  height: auto;
-  min-height: 14%;
+  min-height: 15%;
   position: relative;
-  bottom: 300px;
-  border-radius: 5px 5px 0 0;
-  /*background-color: seagreen;*/
+  border-radius: 5px 5px 5px 5px;
+  display: inline-block;
+  margin-bottom: 10%;
 }
 
 #repliesDiv {
-  position: absolute;
-  top: 300px;
+  position: relative;
   width: 60%;
-  min-height: 100px;
-  height: 60%;
+  height: fit-content;
   background-color: #ffffff;
+  flex-direction: column-reverse;
   display: inline-block;
   overflow: scroll;
   overflow-x: hidden;
-
-}
-
-#noReplyMessage {
-  font-family: Helvetica;
-  color: #2c3e50;
-  text-shadow: none;
-  font-weight: bolder;
-  font-size: 14px;
-  margin-top: 4%;
-  display: none;
+  max-height: 60%;
+  padding: 2px;
+  margin-top: 20px;
 }
 
 #likeButton {
@@ -402,8 +490,8 @@ textarea {
 #threadPage {
   position: relative;
   display: flex;
+  flex-direction: column-reverse;
   align-items: center;
-  justify-content: center;
   height: 800px;
   color: #FFFFFF;
   font-size: 20px;
@@ -433,18 +521,19 @@ textarea {
 
 #forumTitle {
   font-size: 20px;
-  line-height: 18px;
+  font-weight: bolder;
   word-wrap: anywhere;
-  width: 100%
+  width: 100%;
 }
 
 #forumDetailsPlaceHolder {
-  width: 60%;
-  background-color: #ccefff;
+  width: 100%;
+  background-color: #e6f7ff;
   height: auto;
-  min-height: 14%;
+  min-height: 200px;
   position: absolute;
-  top: 155px;
+  display: block;
+  top: 100%;
   /*background-color: seagreen;*/
 }
 
@@ -468,10 +557,21 @@ textarea {
   font-size: 14px;
 }
 
+#userIcon {
+  font-size: 34px;
+  color: whitesmoke;
+  z-index: 2;
+  padding-top: 12px;
+}
+
 .text-display {
   font-family: Helvetica;
   color: #2c3e50;
   text-shadow: none;
+}
+
+.hidden {
+  display: none;
 }
 
 </style>
