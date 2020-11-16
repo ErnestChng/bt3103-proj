@@ -36,6 +36,9 @@
     <div id="buttonPlaceholder">
       <button class="button" v-on:click="submit()"><span>Submit</span></button>
     </div>
+    <i style="position: absolute; bottom: 24px; left: 12px; font-size: 14px;">
+      Note: Please be mindful on what is said on the forum. Let us spread positivity through our community.
+    </i>
     <div id="subjectCannotBeEmpty">
       <p class="warning">*Subject cannot be empty</p>
     </div>
@@ -43,7 +46,6 @@
       <p class="warning">*Message cannot be empty</p>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -153,7 +155,6 @@ export default {
 }
 
 #firstRow, #secondRow, #categorySelect, #buttonPlaceholder, #subjectCannotBeEmpty, #bodyCannotBeEmpty {
-  position: absolute;
   width: 100%;
 }
 
@@ -194,7 +195,6 @@ export default {
   color: firebrick;
   font-size: 12px;
   font-weight: bolder;
-  font-family: Helvetica;
   text-shadow: none;
 }
 
@@ -291,7 +291,6 @@ form {
 }
 
 .text-display, .radio-inline {
-  font-family: Helvetica;
   color: #2c3e50;
   text-shadow: none;
 }
@@ -320,7 +319,6 @@ button {
   display: inline-block;
   position: relative;
   transition: 0.5s;
-  font-family: Helvetica;
   color: white;
   text-shadow: none;
   font-size: 16px;
@@ -346,6 +344,5 @@ button {
 
 #forumTitle, #forumBody {
   font-size: 14px;
-  font-family: Helvetica;
 }
 </style>

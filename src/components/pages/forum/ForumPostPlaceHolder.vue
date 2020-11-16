@@ -121,11 +121,10 @@ li {
 
 #forumDetailsText {
   text-align: left;
-  font-size: 17px;
+  font-size: 16px;
   padding: 0px 14px 18px 0;
-  line-height: 20px;
   height: 100%;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 #forumDetailsPlaceHolder {
@@ -159,7 +158,7 @@ li {
   font-size: 18px;
   font-weight: bold;
   text-align: left;
-  padding: 8px 0 0 0;
+  padding: 14px 0 0 0;
   overflow: hidden;
 }
 
@@ -205,7 +204,6 @@ li {
 }
 
 .text-display {
-  font-family: Helvetica, 'serif';
   color: #2c3e50;
   text-shadow: none;
 }

@@ -78,19 +78,19 @@ export default {
   color: black;
   text-align: left;
   text-shadow: none;
-  font-family: Helvetica;
   font-size: 16px;
   overflow: auto;
   max-height: 250px;
+  padding: 20px;
 }
 
 #replyHeader {
-  background-color: #99c2ff;
+  background-color: whitesmoke;
   height: auto;
+  padding: 20px;
 }
 
 #replyHeader #timestamp {
-  font-family: Helvetica;
   color: #2c3e50;
   text-shadow: none;
   font-size: 14px;
@@ -101,7 +101,6 @@ export default {
 }
 
 #replyHeader #user {
-  font-family: Helvetica;
   color: #2c3e50;
   text-shadow: none;
   font-size: 14px;

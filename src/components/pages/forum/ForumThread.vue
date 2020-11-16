@@ -49,6 +49,9 @@
         <div id="buttonPlaceholder">
           <button class="button" v-on:click="submit"><span>Submit</span></button>
         </div>
+        <i style="position: absolute; bottom: 14px; left: 12px; font-size: 14px;">
+          Note: Please be mindful on what is said on the forum. Let us spread positivity through our community.
+        </i>
       </div>
     </div>
   </div>
@@ -233,10 +236,9 @@ export default {
   min-height: 40px;
   word-wrap: break-word;
   font-size: 16px;
-  font-family: Helvetica;
   text-shadow: none;
   text-align: left;
-  padding: 5px;
+  padding: 20px;
   overflow: scroll;
   overflow-x: hidden;
   background-color: snow;
@@ -247,6 +249,7 @@ export default {
   text-align: right;
   padding-right: 8px;
   background-color: snow;
+  padding: 10px;
 }
 
 #postDetailsDisplay span {
@@ -261,10 +264,9 @@ export default {
   overflow: hidden;
   font-size: 16px;
   font-weight: bold;
-  font-family: Helvetica;
   text-shadow: none;
   text-align: left;
-  padding: 5px;
+  padding: 20px;
   background-color: #cccccc;
 }
 
@@ -289,7 +291,7 @@ button {
   color: white;
   padding: 16px 32px;
   text-decoration: none;
-  margin: 4px 2px;
+  margin: 10px 2px;
   cursor: pointer;
   transition: 0.5s;
 }
@@ -305,7 +307,6 @@ button {
   display: inline-block;
   position: relative;
   transition: 0.5s;
-  font-family: Helvetica;
   color: white;
   text-shadow: none;
   font-size: 16px;
@@ -332,8 +333,7 @@ button {
 textarea {
   position: relative;
   padding: 8px;
-  height: 150px;
-  max-height: 200px;
+  height: 350px;
   font-size: 14px;
 }
 
@@ -449,7 +449,6 @@ textarea {
   left: 40px;
   color: #2c3e50;
   font-weight: bolder;
-  font-family: Helvetica;
   text-shadow: none;
 }
 
@@ -462,7 +461,6 @@ textarea {
   right: 20px;
   color: #2c3e50;
   font-weight: bolder;
-  font-family: Helvetica;
   text-shadow: none;
 }
 
@@ -524,7 +522,7 @@ textarea {
 }
 
 #forumDetailsText {
-  padding: 12px;
+  padding: 40px;
   text-align: left;
   font-size: 16px;
 }
@@ -538,7 +536,6 @@ textarea {
 }
 
 #forumAuthorAndDate {
-  font-family: Helvetica;
   font-weight: bold;
   font-size: 14px;
 }
@@ -551,7 +548,6 @@ textarea {
 }
 
 .text-display {
-  font-family: Helvetica;
   color: #2c3e50;
   text-shadow: none;
 }

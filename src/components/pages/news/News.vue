@@ -15,6 +15,10 @@
       </tr>
       </tbody>
     </table>
+    <p style="padding:40px; font-style:italic">
+      Note: News information is taken from highly credible sources
+      (<a href="https://www.gov.sg/article/covid-19-updates-and-announcements">https://www.gov.sg/article/covid-19-updates-and-announcements</a>)
+    </p>
   </div>
 </template>
 

@@ -14,8 +14,7 @@
         </l-marker>
       </div>
       <div v-if="datacollection.SASH_for_Children.show">
-        <l-marker v-for="mark in datacollection.SASH_for_Children.data" :lat-lng="[mark.lat, mark.long]"
-                  :key="mark.title">
+        <l-marker v-for="mark in datacollection.SASH_for_Children.data" :lat-lng="[mark.lat, mark.long]" :key="mark.title">
           <l-icon>
             <img :src="datacollection.SASH_for_Children.img" style="height:40px;width:40px" alt="sash">
           </l-icon>
@@ -26,8 +25,7 @@
         </l-marker>
       </div>
       <div v-if="datacollection.SASH.show">
-        <l-marker v-for="mark in datacollection.SASH.data" :lat-lng="[mark.lat, mark.long]"
-                  :key="mark.title">
+        <l-marker v-for="mark in datacollection.SASH.data" :lat-lng="[mark.lat, mark.long]" :key="mark.title">
           <l-icon>
             <img :src="datacollection.SASH.img" style="height:40px;width:40px" alt="sash">
           </l-icon>
@@ -37,10 +35,8 @@
           </l-tooltip>
         </l-marker>
       </div>
-
       <div v-if="datacollection.GPs.show">
-        <l-marker v-for="mark in datacollection.GPs.data" :lat-lng="[mark.lat, mark.long]"
-                  :key="mark.title">
+        <l-marker v-for="mark in datacollection.GPs.data" :lat-lng="[mark.lat, mark.long]" :key="mark.title">
           <l-icon>
             <img :src="datacollection.GPs.img" style="height:40px;width:40px" alt="sash">
           </l-icon>
@@ -57,6 +53,10 @@
         <span style="margin-left: 20px">{{ option.title }}</span>
       </template>
     </v-select>
+    <p class="note">
+      Note: Location information is taken from highly credible sources
+      (<a href="https://www.flugowhere.gov.sg/">https://www.flugowhere.gov.sg/</a>)
+    </p>
   </div>
 </template>
 
@@ -103,7 +103,7 @@ export default {
     };
   },
   created() {
-    var arr = ["Polyclinics", "SASH_for_Children"];
+    var arr = ["Polyclinics", "SASH_for_Children", "SASH", "GPs"];
     var count = arr.length;
     for (var i = 0; i < count; i++) {
       var locations = arr[i];
@@ -156,10 +156,20 @@ export default {
 
 .inner {
   position: absolute;
-  top: 25px;
-  left: 16px;
+  top: 28px;
+  left: 32px;
   margin-bottom: 900px;
   width: 250px;
-  z-index: 2
+  z-index: 2;
+}
+
+.note {
+  position: absolute;
+  font-style: italic;
+  bottom: 20px;
+  left: 32px;
+  font-size: 15px;
+  z-index: 2;
+
 }
 </style>
